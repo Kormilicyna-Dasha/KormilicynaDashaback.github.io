@@ -129,7 +129,7 @@ if ($action === 'edit' && $id) {
         }
     }
 }
-?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -236,7 +236,7 @@ if ($action === 'edit' && $id) {
             <div class="col-md-4">
                 <div class="stat-card" style="border-left-color: #e74c3c;">
                     <h3>Языков программирования</h3>
-                    <p><?= count($all_languages) ?></p>
+                    <p><?= isset($all_languages) ? count($all_languages) : 0 ?></p>
                 </div>
             </div>
         </div>
@@ -274,39 +274,39 @@ if ($action === 'edit' && $id) {
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label">ФИО</label>
-                                    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($edit_data['name']) ?>" required>
+                                    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($edit_data['name'] ?? '') ?>" required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Телефон</label>
-                                    <input type="text" name="phone" class="form-control" value="<?= htmlspecialchars($edit_data['phone']) ?>" required>
+                                    <input type="text" name="phone" class="form-control" value="<?= htmlspecialchars($edit_data['phone'] ?? '') ?>" required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($edit_data['email']) ?>" required>
+                                    <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($edit_data['email'] ?? '') ?>" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label">Дата рождения</label>
-                                    <input type="date" name="birthdate" class="form-control" value="<?= htmlspecialchars($edit_data['birthdate']) ?>" required>
+                                    <input type="date" name="birthdate" class="form-control" value="<?= htmlspecialchars($edit_data['birthdate'] ?? '') ?>" required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Пол</label>
                                     <select name="gender" class="form-select" required>
-                                        <option value="male" <?= $edit_data['gender'] === 'male' ? 'selected' : '' ?>>Мужской</option>
-                                        <option value="female" <?= $edit_data['gender'] === 'female' ? 'selected' : '' ?>>Женский</option>
-                                        <option value="other" <?= $edit_data['gender'] === 'other' ? 'selected' : '' ?>>Другое</option>
+                                        <option value="male" <?= ($edit_data['gender'] ?? '') === 'male' ? 'selected' : '' ?>>Мужской</option>
+                                        <option value="female" <?= ($edit_data['gender'] ?? '') === 'female' ? 'selected' : '' ?>>Женский</option>
+                                        <option value="other" <?= ($edit_data['gender'] ?? '') === 'other' ? 'selected' : '' ?>>Другое</option>
                                     </select>
                                 </div>
 
                                 <div class="mb-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="agreement" id="contract"
-                                            <?= $edit_data['agreement'] ? 'checked' : '' ?>>
+                                            <?= ($edit_data['agreement'] ?? false) ? 'checked' : '' ?>>
                                         <label class="form-check-label" for="contract">Контракт принят</label>
                                     </div>
                                 </div>
@@ -318,7 +318,7 @@ if ($action === 'edit' && $id) {
                             <select name="languages[]" class="form-select" multiple size="5" required>
                                 <?php foreach ($all_languages as $lang): ?>
                                     <option value="<?= htmlspecialchars($lang) ?>"
-                                        <?= in_array($lang, $edit_data['languages']) ? 'selected' : '' ?>>
+                                        <?= isset($edit_data['languages']) && in_array($lang, $edit_data['languages']) ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($lang) ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -327,7 +327,7 @@ if ($action === 'edit' && $id) {
 
                         <div class="mb-3">
                             <label class="form-label">Биография</label>
-                            <textarea name="bio" class="form-control" rows="4" required><?= htmlspecialchars($edit_data['bio']) ?></textarea>
+                            <textarea name="bio" class="form-control" rows="4" required><?= htmlspecialchars($edit_data['bio'] ?? '') ?></textarea>
                         </div>
 
                         <div class="d-flex justify-content-end gap-2">
