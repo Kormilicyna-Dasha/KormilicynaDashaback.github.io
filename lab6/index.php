@@ -130,135 +130,158 @@ if ($action === 'edit' && $id) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админ-панель</title>
+    <title>Управление заявками</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f5f7fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            padding: 20px;
         }
-        .admin-header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 1rem 0;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
+
+        h1, h2, h3 {
+            color: #1e40af;
+            margin-bottom: 1rem;
+        }
+
         .card {
-            border: none;
+            background: white;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: none;
             margin-bottom: 20px;
-            transition: transform 0.2s;
         }
-        .card:hover {
-            transform: translateY(-2px);
-        }
+
         .card-header {
-            background-color: #3498db;
-            color: white;
+            background-color: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 12px 20px;
             font-weight: 600;
             border-radius: 8px 8px 0 0 !important;
         }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+        }
+
+        .table th {
+            background-color: #f1f5f9;
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        .table td {
+            padding: 12px;
+            border-top: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+
+        .btn {
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            border: none;
+        }
+
+        .btn-warning {
+            background-color: #f59e0b;
+            border: none;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
         .stat-card {
             background: white;
             padding: 15px;
             border-radius: 8px;
-            border-left: 4px solid #3498db;
-            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
+
         .stat-card h3 {
-            font-size: 1rem;
-            color: #7f8c8d;
+            font-size: 1.2rem;
             margin-bottom: 5px;
+            color: #3b82f6;
         }
+
         .stat-card p {
             font-size: 1.5rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin: 0;
-        }
-        .table {
-            background-color: white;
-        }
-        .table th {
-            background-color: #f8f9fa;
             font-weight: 600;
+            margin: 0;
+            color: #1e293b;
         }
-        .badge {
-            font-weight: 500;
-            padding: 5px 10px;
+
+        .form-group {
+            margin-bottom: 15px;
         }
-        .btn-action {
-            width: 30px;
-            height: 30px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
+
+        .form-control, .form-select {
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 10px;
         }
-        .form-section {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+        .form-control:focus, .form-select:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .alert {
+            border-radius: 6px;
+            padding: 12px 15px;
         }
     </style>
 </head>
 <body>
-    <div class="admin-header">
-        <div class="container">
-            <h1 class="mb-0">Админ-панель</h1>
-        </div>
-    </div>
-
     <div class="container">
-        <!-- Статистика -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="stat-card">
-                    <h3>Всего заявок</h3>
-                    <p><?= count($applications) ?></p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card" style="border-left-color: #2ecc71;">
-                    <h3>Заявок сегодня</h3>
-                    <p><?= $today_applications ?></p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card" style="border-left-color: #e74c3c;">
-                    <h3>Языков программирования</h3>
-                    <p><?= isset($all_languages) ? count($all_languages) : 0 ?></p>
-                </div>
-            </div>
-        </div>
+        <h1 class="mb-4">Управление заявками</h1>
 
-        <!-- Популярные языки -->
-        <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <span>Популярные языки программирования</span>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <?php foreach ($stats as $stat): ?>
-                        <div class="col-md-3 mb-3">
-                            <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded">
-                                <span><?= htmlspecialchars($stat['name']) ?></span>
-                                <span class="badge bg-primary"><?= $stat['count'] ?></span>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+        <!-- Статистика -->
+        <div class="stats-grid">
+            <?php foreach ($stats as $stat): ?>
+                <div class="stat-card">
+                    <h3><?= htmlspecialchars($stat['name']) ?></h3>
+                    <p><?= $stat['count'] ?></p>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
         <!-- Форма редактирования -->
@@ -273,67 +296,68 @@ if ($action === 'edit' && $id) {
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label class="form-label">ФИО</label>
-                                    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($edit_data['name'] ?? '') ?>" required>
+                                    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($edit_data['name']) ?>" required>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label class="form-label">Телефон</label>
-                                    <input type="text" name="phone" class="form-control" value="<?= htmlspecialchars($edit_data['phone'] ?? '') ?>" required>
+                                    <input type="text" name="phone" class="form-control" value="<?= htmlspecialchars($edit_data['phone']) ?>" required>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($edit_data['email'] ?? '') ?>" required>
+                                    <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($edit_data['email']) ?>" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label class="form-label">Дата рождения</label>
-                                    <input type="date" name="birthdate" class="form-control" value="<?= htmlspecialchars($edit_data['birthdate'] ?? '') ?>" required>
+                                    <input type="date" name="birthdate" class="form-control" value="<?= htmlspecialchars($edit_data['birthdate']) ?>" required>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label class="form-label">Пол</label>
                                     <select name="gender" class="form-select" required>
-                                        <option value="male" <?= ($edit_data['gender'] ?? '') === 'male' ? 'selected' : '' ?>>Мужской</option>
-                                        <option value="female" <?= ($edit_data['gender'] ?? '') === 'female' ? 'selected' : '' ?>>Женский</option>
-                                        <option value="other" <?= ($edit_data['gender'] ?? '') === 'other' ? 'selected' : '' ?>>Другое</option>
+                                        <option value="male" <?= $edit_data['gender'] === 'male' ? 'selected' : '' ?>>Мужской</option>
+                                        <option value="female" <?= $edit_data['gender'] === 'female' ? 'selected' : '' ?>>Женский</option>
+                                        <option value="other" <?= $edit_data['gender'] === 'other' ? 'selected' : '' ?>>Другое</option>
                                     </select>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="form-group">
+                                    <label class="form-label">Контракт принят</label>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="agreement" id="contract"
-                                            <?= ($edit_data['agreement'] ?? false) ? 'checked' : '' ?>>
-                                        <label class="form-check-label" for="contract">Контракт принят</label>
+                                            <?= $edit_data['agreement'] ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="contract">Да</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label class="form-label">Языки программирования</label>
                             <select name="languages[]" class="form-select" multiple size="5" required>
                                 <?php foreach ($all_languages as $lang): ?>
                                     <option value="<?= htmlspecialchars($lang) ?>"
-                                        <?= isset($edit_data['languages']) && in_array($lang, $edit_data['languages']) ? 'selected' : '' ?>>
+                                        <?= in_array($lang, $edit_data['languages']) ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($lang) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label class="form-label">Биография</label>
-                            <textarea name="bio" class="form-control" rows="4" required><?= htmlspecialchars($edit_data['bio'] ?? '') ?></textarea>
+                            <textarea name="bio" class="form-control" rows="4" required><?= htmlspecialchars($edit_data['bio']) ?></textarea>
                         </div>
 
-                        <div class="d-flex justify-content-end gap-2">
-                            <a href="index.php" class="btn btn-secondary">Отмена</a>
-                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                            <a href="index.php" class="btn btn-outline-secondary">Отмена</a>
                         </div>
                     </form>
                 </div>
@@ -343,12 +367,12 @@ if ($action === 'edit' && $id) {
         <!-- Список заявок -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span>Список заявок</span>
-                <span class="badge bg-primary"><?= count($applications) ?></span>
+                <h2 class="mb-0">Список заявок</h2>
+                <span class="badge bg-primary">Всего: <?= count($applications) ?></span>
             </div>
-            <div class="card-body p-0">
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -376,11 +400,11 @@ if ($action === 'edit' && $id) {
                                     </td>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <a href="index.php?action=edit&id=<?= $app['id'] ?>" class="btn btn-sm btn-warning btn-action">
+                                            <a href="index.php?action=edit&id=<?= $app['id'] ?>" class="btn btn-sm btn-warning">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <a href="index.php?action=delete&id=<?= $app['id'] ?>" class="btn btn-sm btn-danger btn-action"
-                                               onclick="return confirm('Удалить эту заявку?')">
+                                            <a href="index.php?action=delete&id=<?= $app['id'] ?>" class="btn btn-sm btn-danger"
+                                               onclick="return confirm('Вы уверены, что хотите удалить эту заявку?')">
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </div>
@@ -395,6 +419,5 @@ if ($action === 'edit' && $id) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </body>
 </html>
