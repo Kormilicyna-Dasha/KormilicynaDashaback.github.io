@@ -129,6 +129,7 @@ if ($action === 'edit' && $id) {
         }
     }
 }
+?>
 
 <!DOCTYPE html>
 <html lang="ru">
